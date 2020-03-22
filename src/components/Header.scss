@@ -6,4 +6,9 @@
   .title {
     flex-grow: 1;
   }
+
+  .auth-info {
+    display: flex;
+    align-items: center;
+  }
 }

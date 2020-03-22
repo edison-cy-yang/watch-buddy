@@ -29,7 +29,7 @@ export default function MenuAppBar(props) {
             Watch Buddy
           </Typography>
           {props.auth && (
-            <div>
+            <div className="auth-info">
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -58,6 +58,9 @@ export default function MenuAppBar(props) {
                 <MenuItem onClick={handleClose}>My account</MenuItem>
                 <MenuItem onClick={handleClose}>Logout</MenuItem>
               </Menu>
+              <Typography variant="h6">
+                {props.auth.name}
+              </Typography>
             </div>
           )}
           {!props.auth && (
