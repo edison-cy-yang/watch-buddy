@@ -66,7 +66,7 @@ export default function MenuAppBar(props) {
           {!props.auth && (
             <div>
               <Button variant="contained">
-                <span>Sign in with Google</span>
+                <a href="/users/auth/google">Sign in with Google</a>
               </Button>
             </div>
           )}
