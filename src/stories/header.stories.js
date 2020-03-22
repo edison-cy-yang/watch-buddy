@@ -3,8 +3,10 @@ import React, { Fragment } from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
-storiesOf("Button", module)
+import Header from '../components/Header';
+
+storiesOf("Header", module)
   .addParameters({
     backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
   })
-  .add("Base", () => <h1>Hi</h1>);
+  .add("Header", () => <Header />);
