@@ -56,7 +56,9 @@ export default function MenuAppBar(props) {
               >
                 <MenuItem onClick={handleClose}>Friend Requests</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem>
+                  <a href="/users/auth/logout" style={{textDecoration: 'none'}}>Logout</a>
+                </MenuItem>
               </Menu>
               <Typography variant="h6">
                 {props.auth.name}
