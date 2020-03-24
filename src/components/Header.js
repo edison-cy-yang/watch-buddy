@@ -57,7 +57,7 @@ export default function MenuAppBar(props) {
                 <MenuItem onClick={handleClose}>Friend Requests</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
                 <MenuItem>
-                  <a href="/users/auth/logout" style={{textDecoration: 'none'}}>Logout</a>
+                  <a href={`${process.env.REACT_APP_API_URL}/users/auth/logout`} style={{textDecoration: 'none'}}>Logout</a>
                 </MenuItem>
               </Menu>
               <Typography variant="h6">
@@ -68,7 +68,7 @@ export default function MenuAppBar(props) {
           {!props.auth && (
             <div>
               <Button variant="contained">
-                <a href="/users/auth/google">Sign in with Google</a>
+                <a href={`${process.env.REACT_APP_API_URL}/users/auth/google`}>Sign in with Google</a>
               </Button>
             </div>
           )}
