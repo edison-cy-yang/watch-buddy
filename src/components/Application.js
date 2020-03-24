@@ -5,6 +5,8 @@ import Header from './Header';
 import Feed from './Feed';
 import FriendRequests from './FriendRequests';
 
+import UserContext from '../contexts/UserContext';
+
 import axios from 'axios';
 
 export default function Application(props) {
@@ -24,13 +26,16 @@ export default function Application(props) {
 
   }, []);
 
+
   return (
-    <div>
-      <BrowserRouter>
-        <Header auth={auth}/>
-        <Route exact path="/feed" component={Feed} />
-        <Route exact path="/FriendRequests" component={FriendRequests} />
-      </BrowserRouter>
-    </div>
+    <UserContext.Provider value={auth}>
+      <div>
+        <BrowserRouter>
+          <Header auth={auth}/>
+          <Route exact path="/feed" component={Feed} />
+          <Route exact path="/FriendRequests" component={FriendRequests} />
+        </BrowserRouter>
+      </div>
+    </UserContext.Provider>
   );
 };
