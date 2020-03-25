@@ -7,7 +7,7 @@ import axios from 'axios';
 export default function Feed(props) {
   //get current user's id
   const auth = useContext(UserContext);
-  const [rooms, setRooms] = useState({});
+  const [rooms, setRooms] = useState([]);
 
   const transformRawRoomsData = (rooms) => {
     const transformed = {};
@@ -27,8 +27,9 @@ export default function Feed(props) {
       const fetchRooms = async () => {
         const rooms = await axios.get(`/rooms?id=${auth.id}`);
         console.log(rooms.data);
-        const transformedRooms = transformRawRoomsData(rooms.data);
-        setRooms(transformedRooms);
+        // const transformedRooms = transformRawRoomsData(rooms.data);
+        // console.log(Object.values(transformedRooms));
+        setRooms(rooms.data);
       }
       fetchRooms();
     }
@@ -37,6 +38,14 @@ export default function Feed(props) {
   console.log(rooms);
 
   return (
-    <h1>I am feed</h1>
+    <div>
+      <h1>I am feed</h1>
+      {rooms.map(room => {
+        return (
+          <p>
+            <b><a href="/chatroom">{room.title}</a></b> by {room.name}
+          </p>)
+      })}
+    </div>
   );
 };
