@@ -1,17 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
+
+import UserContext from '../contexts/UserContext';
 
 import Header from './Header';
 import Feed from './Feed';
 import FriendRequests from './FriendRequests';
 import MyRooms from './MyRooms';
 
-import UserContext from '../contexts/UserContext';
-
 import axios from 'axios';
 
+
 export default function Application(props) {
-  const [auth, setAuth] = useState(null);
+
+  const [auth, setAuth] = useState({
+    id: null,
+    name: null,
+    email: null,
+    google_id: null
+  });
 
   useEffect(() => {
     const fetchUser = async () => {
