@@ -13,7 +13,7 @@ export default function ChatRoom(props) {
   const socket = io("http://localhost:8080/");
 
   const room = props.location.state;
-  console.log(room);
+  
   const [player, setPlayer] = useState(null);
 
   const getVideoId = (url) => {
@@ -26,12 +26,10 @@ export default function ChatRoom(props) {
   const videoId = getVideoId(room.video_url);
 
   useEffect(() => {
-    console.log(socket);
     if (player) {
     
       socket.on('connect', () => {
         console.log("connected!");
-        console.log(socket);
         socket.emit("room", { roomId: room.id });
       })
 
@@ -40,8 +38,11 @@ export default function ChatRoom(props) {
           player.playVideo();
         }
       });
-    
-      console.log(socket);
+
+      socket.on('pause', () => {
+        player.pauseVideo();
+      });
+
     }
   },[player])
 
@@ -66,6 +67,7 @@ export default function ChatRoom(props) {
 
   const onPause = (event) => {
     console.log("pause!");
+    socket.emit("pause");
   }
 
   const onStateChange = (event) => {
