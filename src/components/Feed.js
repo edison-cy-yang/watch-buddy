@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
+import { Link, BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import UserContext from '../contexts/UserContext';
 
@@ -42,8 +43,15 @@ export default function Feed(props) {
       <h1>I am feed</h1>
       {rooms.map(room => {
         return (
-          <p>
-            <b><a href="/chatroom">{room.title}</a></b> by {room.name}
+          <p key={room.id}>
+            <b>
+              <Link to={{
+                pathname:'/chatroom',
+                state: room
+              }}>
+                {room.title}
+              </Link>
+            </b> by {room.name}
           </p>)
       })}
     </div>
