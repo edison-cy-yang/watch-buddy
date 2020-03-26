@@ -33,7 +33,7 @@ export default function MenuAppBar(props) {
           <Typography variant="h4" className="title">
             Watch Buddy
           </Typography>
-          {auth && (
+          {auth.id && (
             <div className="auth-info">
               <IconButton
                 aria-label="account of current user"
@@ -70,7 +70,7 @@ export default function MenuAppBar(props) {
               </Typography>
             </div>
           )}
-          {!auth && (
+          {!auth.id && (
             <div>
               <Button variant="contained">
                 <a href={`${process.env.REACT_APP_API_URL}/users/auth/google`}>Sign in with Google</a>

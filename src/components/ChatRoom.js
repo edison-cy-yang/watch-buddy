@@ -1,10 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import Youtube from 'react-youtube';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import IconButton from '@material-ui/core/IconButton';
+import io from 'socket.io-client';
 
 export default function ChatRoom(props) {
+  // const playerRef = useRef(null);
+  // console.log("playerRef");
+  // console.log(playerRef);
+
+  const socket = io("http://localhost:8080/");
 
   const room = props.location.state;
   console.log(room);
@@ -19,6 +25,26 @@ export default function ChatRoom(props) {
 
   const videoId = getVideoId(room.video_url);
 
+  useEffect(() => {
+    console.log(socket);
+    if (player) {
+    
+      socket.on('connect', () => {
+        console.log("connected!");
+        console.log(socket);
+        socket.emit("room", { roomId: room.id });
+      })
+
+      socket.on('play', () => {
+        if (player) {
+          player.playVideo();
+        }
+      });
+    
+      console.log(socket);
+    }
+  },[player])
+
   const opts = {
     height: '390',
     width: '640',
@@ -29,25 +55,30 @@ export default function ChatRoom(props) {
 
   const onReady = (event) => {
     event.target.stopVideo();
+    console.log("set player");
     setPlayer(event.target);
   }
 
-  const onPlay = () => {
+  const onPlay = (event) => {
     console.log("play!");
+    socket.emit("play");
   }
 
-  const onPause = () => {
+  const onPause = (event) => {
     console.log("pause!");
   }
 
   const onStateChange = (event) => {
-    console.log(event.target.playerInfo.currentTime);
+    if (event.data === 3) {
+      console.log(event.target.playerInfo.currentTime);
+    }
   }
 
   return (
     <div>
       <h1>I am inside a room for <b>{room.title}</b></h1>
       <Youtube
+        // ref={playerRef}
         videoId={videoId}
         opts={opts}
         onReady={onReady}
