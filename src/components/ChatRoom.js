@@ -43,6 +43,10 @@ export default function ChatRoom(props) {
         player.pauseVideo();
       });
 
+      socket.on('seek', (time) => {
+        player.seekTo(time);
+        player.playVideo();
+      })
     }
   },[player])
 
@@ -66,6 +70,7 @@ export default function ChatRoom(props) {
   }
 
   const onPause = (event) => {
+    console.log(event)
     console.log("pause!");
     socket.emit("pause");
   }
@@ -73,6 +78,7 @@ export default function ChatRoom(props) {
   const onStateChange = (event) => {
     if (event.data === 3) {
       console.log(event.target.playerInfo.currentTime);
+      socket.emit("seek", event.target.playerInfo.currentTime);
     }
   }
 
