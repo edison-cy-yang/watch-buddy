@@ -10,6 +10,7 @@ import MyRooms from './MyRooms';
 import ChatRoom from './ChatRoom';
 import Room from './Room';
 import CreateRoom from './CreateRoom';
+import Home from './Home';
 
 import axios from 'axios';
 
@@ -43,9 +44,10 @@ export default function Application(props) {
       <div>
         <BrowserRouter>
           <Header auth={auth}/>
-          {auth.id && (
+          
+          {/* {auth.id && (
             <CreateRoom />
-          )}
+          )} */}
           {/* <Link to="/feed">Feed</Link>
           <Link to="/MyRooms">My Rooms</Link>
           <Link to="/rooms">Rooms</Link> */}
@@ -53,7 +55,8 @@ export default function Application(props) {
           {/* <Route exact path="/feed" component={Feed} />
           <Route exact path="/chatroom" component={ChatRoom} />
           <Route exact path="/FriendRequests" component={FriendRequests} />
-          <Route exact path="/MyRooms" component={MyRooms} /> */}         
+          <Route exact path="/MyRooms" component={MyRooms} /> */}    
+          <Route exact path="/" component={Home} />     
         </BrowserRouter>
       </div>
     </UserContext.Provider>
