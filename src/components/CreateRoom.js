@@ -11,6 +11,7 @@ import Fade from '@material-ui/core/Fade';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import axios from 'axios';
 
@@ -51,7 +52,7 @@ export default function CreateRoom(props) {
 
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
-  const [newRoomId, setNewRoomId] = useState("");
+  const [newRoomUrl, setNewRoomUrl] = useState("");
 
   const [saving, setSaving] = useState(false);
 
@@ -63,7 +64,7 @@ export default function CreateRoom(props) {
 
   const handleClose = () => {
     setOpen(false);
-    setNewRoomId("");
+    setNewRoomUrl("");
     setTitle("");
     setUrl("");
   };
@@ -80,7 +81,7 @@ export default function CreateRoom(props) {
       const newRoom = await axios.post('/rooms', {room, owner_id});
       console.log(newRoom);
       setSaving(false);
-      setNewRoomId(newRoom.data.uid);
+      setNewRoomUrl(`http://localhost:3000/${newRoom.data.uid}`);
     } catch(err) {
       console.log(err);
     }
@@ -112,8 +113,15 @@ export default function CreateRoom(props) {
             <form className={classes.createForm} onSubmit={createRoom}>
               <TextField className={classes.formInput} id="outlined-basic" label="title" variant="outlined" onChange={event => setTitle(event.target.value)} />
               <TextField className={classes.formInput} id="outlined-basic" label="YouTube video URL" variant="outlined" onChange={event => setUrl(event.target.value)} />
-              {!saving && !newRoomId && <Button type="submit" variant="contained" color="primary">Create</Button>}
-              {!saving && newRoomId && (<span>Room id is: {newRoomId}</span>)}
+              {!saving && !newRoomUrl && <Button type="submit" variant="contained" color="primary">Create</Button>}
+              {!saving && newRoomUrl && (
+                <>
+                  <p>URL to your new room: {newRoomUrl}</p>
+                  <CopyToClipboard text={newRoomUrl}>
+                    <Button>Copy to clipboard</Button>
+                  </CopyToClipboard>
+                </>
+              )}
               {saving && (<CircularProgress />)}
             </form>
           </div>
