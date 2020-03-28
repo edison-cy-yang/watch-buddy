@@ -15,6 +15,8 @@ import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import IconButton from '@material-ui/core/IconButton';
 import io from 'socket.io-client';
 
+import { getVideoId } from '../helpers/videoHelpers';
+
 export default function Room() {
   let { roomId } = useParams();
   const [room, setRoom] = useState({
@@ -24,16 +26,11 @@ export default function Room() {
     video_url: null,
     owner_id: null
   });
+
   const [loading, setLoading] = useState(true);
   const [videoId, setVideoId] = useState(null);
+  const [player, setPlayer] = useState(null);
   console.log(videoId);
-
-  const getVideoId = (url) => {
-    //Get videoId
-    const rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
-    const videoId = url.match(rx)[1];
-    return videoId;
-  };
 
   useEffect(() => {
     const getRoomByUid = async (uid) => {
@@ -50,8 +47,6 @@ export default function Room() {
   }, [roomId])
 
   const socket = io("http://localhost:8080/");
-
-  const [player, setPlayer] = useState(null);
 
   useEffect(() => {
     if (player) {
@@ -115,14 +110,17 @@ export default function Room() {
       
       <h2>{roomId}</h2> 
       {!loading && (
-        <Youtube
-          videoId={videoId}
-          opts={opts}
-          onReady={onReady}
-          onPlay={onPlay}
-          onPause={onPause}
-          onStateChange={onStateChange}
-        />
+        <>
+          <h2>{room.title}</h2>
+          <Youtube
+            videoId={videoId}
+            opts={opts}
+            onReady={onReady}
+            onPlay={onPlay}
+            onPause={onPause}
+            onStateChange={onStateChange}
+          />
+        </> 
       )}
     </div>
   );
