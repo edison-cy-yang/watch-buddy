@@ -10,6 +10,9 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+import axios from 'axios';
 
 import './CreateRoom.scss';
 
@@ -45,6 +48,9 @@ export default function CreateRoom(props) {
 
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
+  const [newRoomId, setNewRoomId] = useState("");
+
+  const [saving, setSaving] = useState(false);
 
   const auth = useContext(UserContext);
 
@@ -54,10 +60,28 @@ export default function CreateRoom(props) {
 
   const handleClose = () => {
     setOpen(false);
+    setNewRoomId("");
+    setTitle("");
+    setUrl("");
   };
 
-  const addRoom = () => {
-    console.log("clicked");
+  const createRoom = async (event) => {
+    event.preventDefault();
+    setSaving(true);
+    const room = {
+      title,
+      video_url: url
+    }
+    const owner_id = auth.id;
+    try {
+      const newRoom = await axios.post('/rooms', {room, owner_id});
+      console.log(newRoom);
+      setSaving(false);
+      setNewRoomId(newRoom.data.uid);
+    } catch(err) {
+      console.log(err);
+    }
+    
   }
 
   return (
@@ -82,10 +106,12 @@ export default function CreateRoom(props) {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <form className={classes.createForm} onSubmit={event => event.preventDefault()}>
+            <form className={classes.createForm} onSubmit={createRoom}>
               <TextField id="outlined-basic" label="title" variant="outlined" onChange={event => setTitle(event.target.value)} />
               <TextField id="outlined-basic" label="YouTube video URL" variant="outlined" onChange={event => setUrl(event.target.value)} />
-              <Button type="submit" variant="contained" color="primary">Create</Button>
+              {!saving && !newRoomId && <Button type="submit" variant="contained" color="primary">Create</Button>}
+              {!saving && newRoomId && (<span>Room id is: {newRoomId}</span>)}
+              {saving && (<CircularProgress />)}
             </form>
           </div>
         </Fade>
