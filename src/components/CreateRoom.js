@@ -40,6 +40,9 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     width: '200px'
   },
+  formInput: {
+    margin: '10px'
+  }
 }));
 
 export default function CreateRoom(props) {
@@ -107,8 +110,8 @@ export default function CreateRoom(props) {
         <Fade in={open}>
           <div className={classes.paper}>
             <form className={classes.createForm} onSubmit={createRoom}>
-              <TextField id="outlined-basic" label="title" variant="outlined" onChange={event => setTitle(event.target.value)} />
-              <TextField id="outlined-basic" label="YouTube video URL" variant="outlined" onChange={event => setUrl(event.target.value)} />
+              <TextField className={classes.formInput} id="outlined-basic" label="title" variant="outlined" onChange={event => setTitle(event.target.value)} />
+              <TextField className={classes.formInput} id="outlined-basic" label="YouTube video URL" variant="outlined" onChange={event => setUrl(event.target.value)} />
               {!saving && !newRoomId && <Button type="submit" variant="contained" color="primary">Create</Button>}
               {!saving && newRoomId && (<span>Room id is: {newRoomId}</span>)}
               {saving && (<CircularProgress />)}
