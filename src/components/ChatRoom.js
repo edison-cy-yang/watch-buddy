@@ -10,7 +10,7 @@ export default function ChatRoom(props) {
   // console.log("playerRef");
   // console.log(playerRef);
 
-  const socket = io("http://localhost:8080/");
+  const socket = io(process.env.REACT_APP_API_URL);
 
   const room = props.location.state;
   
