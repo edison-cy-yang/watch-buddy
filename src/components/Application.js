@@ -9,6 +9,7 @@ import FriendRequests from './FriendRequests';
 import MyRooms from './MyRooms';
 import ChatRoom from './ChatRoom';
 import Room from './Room';
+import CreateRoom from './CreateRoom';
 
 import axios from 'axios';
 
@@ -42,6 +43,9 @@ export default function Application(props) {
       <div>
         <BrowserRouter>
           <Header auth={auth}/>
+          {auth.id && (
+            <CreateRoom />
+          )}
           {/* <Link to="/feed">Feed</Link>
           <Link to="/MyRooms">My Rooms</Link>
           <Link to="/rooms">Rooms</Link> */}
