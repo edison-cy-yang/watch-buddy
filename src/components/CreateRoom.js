@@ -55,6 +55,7 @@ export default function CreateRoom(props) {
   const [newRoomUrl, setNewRoomUrl] = useState("");
 
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(false);
 
   const auth = useContext(UserContext);
 
@@ -71,6 +72,10 @@ export default function CreateRoom(props) {
 
   const createRoom = async (event) => {
     event.preventDefault();
+    if (title === "" || url === "") {
+      setError(true);
+      return;
+    }
     setSaving(true);
     const room = {
       title,
@@ -86,6 +91,11 @@ export default function CreateRoom(props) {
       console.log(err);
     }
     
+  }
+
+  const onTitleChange = (event) => {
+    setTitle(event.target.value)
+    setError(false);
   }
 
   return (
@@ -111,8 +121,8 @@ export default function CreateRoom(props) {
         <Fade in={open}>
           <div className={classes.paper}>
             <form className={classes.createForm} onSubmit={createRoom}>
-              <TextField className={classes.formInput} id="outlined-basic" label="title" variant="outlined" onChange={event => setTitle(event.target.value)} />
-              <TextField className={classes.formInput} id="outlined-basic" label="YouTube video URL" variant="outlined" onChange={event => setUrl(event.target.value)} />
+              <TextField className={classes.formInput} id="outlined-basic" label="title" variant="outlined" onChange={onTitleChange} error={error} />
+              <TextField className={classes.formInput} id="outlined-basic" label="YouTube video URL" variant="outlined" onChange={event => setUrl(event.target.value)} error={error} />
               {!saving && !newRoomUrl && <Button type="submit" variant="contained" color="primary">Create</Button>}
               {!saving && newRoomUrl && (
                 <>
