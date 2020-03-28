@@ -10,6 +10,10 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+
+import axios from 'axios';
 
 import './CreateRoom.scss';
 
@@ -37,6 +41,9 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     width: '200px'
   },
+  formInput: {
+    margin: '10px'
+  }
 }));
 
 export default function CreateRoom(props) {
@@ -45,6 +52,10 @@ export default function CreateRoom(props) {
 
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
+  const [newRoomUrl, setNewRoomUrl] = useState("");
+
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(false);
 
   const auth = useContext(UserContext);
 
@@ -54,10 +65,37 @@ export default function CreateRoom(props) {
 
   const handleClose = () => {
     setOpen(false);
+    setNewRoomUrl("");
+    setTitle("");
+    setUrl("");
   };
 
-  const addRoom = () => {
-    console.log("clicked");
+  const createRoom = async (event) => {
+    event.preventDefault();
+    if (title === "" || url === "") {
+      setError(true);
+      return;
+    }
+    setSaving(true);
+    const room = {
+      title,
+      video_url: url
+    }
+    const owner_id = auth.id;
+    try {
+      const newRoom = await axios.post('/rooms', {room, owner_id});
+      console.log(newRoom);
+      setSaving(false);
+      setNewRoomUrl(`http://localhost:3000/${newRoom.data.uid}`);
+    } catch(err) {
+      console.log(err);
+    }
+    
+  }
+
+  const onTitleChange = (event) => {
+    setTitle(event.target.value)
+    setError(false);
   }
 
   return (
@@ -82,10 +120,19 @@ export default function CreateRoom(props) {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <form className={classes.createForm} onSubmit={event => event.preventDefault()}>
-              <TextField id="outlined-basic" label="title" variant="outlined" onChange={event => setTitle(event.target.value)} />
-              <TextField id="outlined-basic" label="YouTube video URL" variant="outlined" onChange={event => setUrl(event.target.value)} />
-              <Button type="submit" variant="contained" color="primary">Create</Button>
+            <form className={classes.createForm} onSubmit={createRoom}>
+              <TextField className={classes.formInput} id="outlined-basic" label="title" variant="outlined" onChange={onTitleChange} error={error} />
+              <TextField className={classes.formInput} id="outlined-basic" label="YouTube video URL" variant="outlined" onChange={event => setUrl(event.target.value)} error={error} />
+              {!saving && !newRoomUrl && <Button type="submit" variant="contained" color="primary">Create</Button>}
+              {!saving && newRoomUrl && (
+                <>
+                  <p>URL to your new room: {newRoomUrl}</p>
+                  <CopyToClipboard text={newRoomUrl}>
+                    <Button>Copy to clipboard</Button>
+                  </CopyToClipboard>
+                </>
+              )}
+              {saving && (<CircularProgress />)}
             </form>
           </div>
         </Fade>

@@ -8,6 +8,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button';
 
+import { Link } from 'react-router-dom'
+
 import './Header.scss';
 
 import UserContext from '../contexts/UserContext';
@@ -31,7 +33,9 @@ export default function MenuAppBar(props) {
       <AppBar position="static" className="header">
         <Toolbar>
           <Typography variant="h4" className="title">
-            Watch Buddy
+            <Link to="/">
+              Watch Buddy
+            </Link>
           </Typography>
           {auth.id && (
             <div className="auth-info">
