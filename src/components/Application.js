@@ -26,7 +26,7 @@ export default function Application(props) {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const auth = await axios.get('/users/auth/current_user');
+      const auth = await axios.get(`${process.env.REACT_APP_API_URL}/users/auth/current_user`, {withCredentials: true});
       if(auth.data) {
         console.log(auth.data);
         setAuth(auth.data);
@@ -35,7 +35,7 @@ export default function Application(props) {
       }
     }
     fetchUser();
-
+    
   }, []);
 
 

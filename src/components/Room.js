@@ -34,7 +34,7 @@ export default function Room() {
 
   useEffect(() => {
     const getRoomByUid = async (uid) => {
-      const room = await axios.get(`/rooms/uid/${uid}`);
+      const room = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/uid/${uid}`);
       if (room.data) {
         setRoom(room.data);
         setVideoId(getVideoId(room.data.video_url));
@@ -46,7 +46,7 @@ export default function Room() {
     getRoomByUid(roomId);
   }, [roomId])
 
-  const socket = io("http://localhost:8080/");
+  const socket = io(process.env.REACT_APP_API_URL);
 
   useEffect(() => {
     if (player) {

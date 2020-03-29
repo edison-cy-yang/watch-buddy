@@ -83,10 +83,10 @@ export default function CreateRoom(props) {
     }
     const owner_id = auth.id;
     try {
-      const newRoom = await axios.post('/rooms', {room, owner_id});
+      const newRoom = await axios.post(`${process.env.REACT_APP_API_URL}/rooms`, {room, owner_id});
       console.log(newRoom);
       setSaving(false);
-      setNewRoomUrl(`http://localhost:3000/${newRoom.data.uid}`);
+      setNewRoomUrl(`${process.env.REACT_APP_CLIENT_URL}/${newRoom.data.uid}`);
     } catch(err) {
       console.log(err);
     }
