@@ -68,7 +68,8 @@ export default function Room() {
       socket.on('play', () => {
         if (player) {
           console.log("received play");
-          player.playVideo();
+          // player.playVideo();
+          setPlaying(!playing);
         }
       });
 
@@ -147,6 +148,11 @@ export default function Room() {
   }
 
   const handlePlayPause = () => {
+    if (playing) {
+      socket.emit("pause");
+    } else {
+      socket.emit("play");
+    }
     setPlaying(!playing);
   }
 
