@@ -39,6 +39,7 @@ export default function Room() {
 
   const [played, setPlayed] = useState(0);
   const [playing, setPlaying] = useState(false);
+  const [player1, setPlayer1] = useState(null);
 
   useEffect(() => {
     const getRoomByUid = async (uid) => {
@@ -125,13 +126,15 @@ export default function Room() {
     socket.emit('pause');
   }
 
+
+
   const handleSeekMouseDown = (e) => {
 
   }
 
   const handleSeekMouseUp = (e) => {
     console.log(e.target.value);
-    player.seekTo(parseFloat(e.target.value));
+    player1.seekTo(parseFloat(e.target.value));
   }
 
   const handleProgress = (state) => {
@@ -140,10 +143,15 @@ export default function Room() {
 
   const ref = (player) => {
     console.log(player);
+    setPlayer1(player);
   }
 
   const handlePlayPause = () => {
     setPlaying(!playing);
+  }
+
+  const handleSeekChange = (event) => {
+    setPlayed(parseFloat(event.target.value));
   }
 
   return (
@@ -163,14 +171,7 @@ export default function Room() {
           />
           <Button onClick={play}>Play</Button>
           <Button onClick={pause}>Pause</Button>
-          {/* <LinearProgress variant="buffer" value={1} valueBuffer={10} /> */}
-          <input
-            type='range' min={0} max={0.999999} step='any'
-            value={played}
-            onMouseDown={handleSeekMouseDown}
-            // onChange={this.handleSeekChange}
-            onMouseUp={handleSeekMouseUp}
-          />
+          
           <YouTubePlayer 
             ref={ref}
             url={room.video_url} 
@@ -178,6 +179,13 @@ export default function Room() {
             playing={playing}
           />
           <Button onClick={handlePlayPause}>{playing? 'Pause' : 'Play'}</Button>
+          <input
+            type='range' min={0} max={0.999999} step='any'
+            value={played}
+            onMouseDown={handleSeekMouseDown}
+            onChange={handleSeekChange}
+            onMouseUp={handleSeekMouseUp}
+          />
         </> 
       )}
     </div>
