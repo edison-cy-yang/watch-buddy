@@ -13,6 +13,7 @@ import axios from 'axios';
 import Youtube from 'react-youtube';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import io from 'socket.io-client';
 
 import { getVideoId } from '../helpers/videoHelpers';
@@ -58,6 +59,7 @@ export default function Room() {
 
       socket.on('play', () => {
         if (player) {
+          console.log("received play");
           player.playVideo();
         }
       });
@@ -88,14 +90,14 @@ export default function Room() {
   }
 
   const onPlay = (event) => {
-    console.log("play!");
-    socket.emit("play");
+    // console.log("play!");
+    // socket.emit("play");
   }
 
   const onPause = (event) => {
-    console.log(event)
-    console.log("pause!");
-    socket.emit("pause");
+    // console.log(event)
+    // console.log("pause!");
+    // socket.emit("pause");
   }
 
   const onStateChange = (event) => {
@@ -103,6 +105,16 @@ export default function Room() {
       console.log(event.target.playerInfo.currentTime);
       socket.emit("seek", event.target.playerInfo.currentTime);
     }
+  }
+
+  const play = (event) => {
+    player.playVideo();
+    socket.emit('play');
+  }
+
+  const pause = (event) => {
+    player.pauseVideo()
+    socket.emit('pause');
   }
 
   return (
@@ -120,6 +132,8 @@ export default function Room() {
             onPause={onPause}
             onStateChange={onStateChange}
           />
+          <Button onClick={play}>Play</Button>
+          <Button onClick={pause}>Pause</Button>
         </> 
       )}
     </div>
