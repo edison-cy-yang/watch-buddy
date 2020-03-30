@@ -14,7 +14,11 @@ import Youtube from 'react-youtube';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
 import io from 'socket.io-client';
+
+import YouTubePlayer from 'react-player/lib/players/YouTube';
 
 import { getVideoId } from '../helpers/videoHelpers';
 
@@ -32,6 +36,9 @@ export default function Room() {
   const [videoId, setVideoId] = useState(null);
   const [player, setPlayer] = useState(null);
   console.log(videoId);
+
+  const [played, setPlayed] = useState(0);
+  const [playing, setPlaying] = useState(false);
 
   useEffect(() => {
     const getRoomByUid = async (uid) => {
@@ -79,7 +86,8 @@ export default function Room() {
     height: '390',
     width: '640',
     playerVars: { // https://developers.google.com/youtube/player_parameters
-      autoplay: 1
+      autoplay: 1,
+      controls: 0
     }
   };
 
@@ -117,6 +125,27 @@ export default function Room() {
     socket.emit('pause');
   }
 
+  const handleSeekMouseDown = (e) => {
+
+  }
+
+  const handleSeekMouseUp = (e) => {
+    console.log(e.target.value);
+    player.seekTo(parseFloat(e.target.value));
+  }
+
+  const handleProgress = (state) => {
+    setPlayed(state.played);
+  }
+
+  const ref = (player) => {
+    console.log(player);
+  }
+
+  const handlePlayPause = () => {
+    setPlaying(!playing);
+  }
+
   return (
     <div>
       
@@ -134,6 +163,21 @@ export default function Room() {
           />
           <Button onClick={play}>Play</Button>
           <Button onClick={pause}>Pause</Button>
+          {/* <LinearProgress variant="buffer" value={1} valueBuffer={10} /> */}
+          <input
+            type='range' min={0} max={0.999999} step='any'
+            value={played}
+            onMouseDown={handleSeekMouseDown}
+            // onChange={this.handleSeekChange}
+            onMouseUp={handleSeekMouseUp}
+          />
+          <YouTubePlayer 
+            ref={ref}
+            url={room.video_url} 
+            onProgress={handleProgress} 
+            playing={playing}
+          />
+          <Button onClick={handlePlayPause}>{playing? 'Pause' : 'Play'}</Button>
         </> 
       )}
     </div>
