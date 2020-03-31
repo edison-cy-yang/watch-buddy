@@ -90,7 +90,6 @@ export default function Room1() {
     event.target.stopVideo();
     console.log("set player");
     setPlayer(event.target);
-    console.log(event.target);
   }
 
   const onPlay = (event) => {
@@ -122,10 +121,9 @@ export default function Room1() {
   }
 
 
-
+  let num = 0;
 
   useEffect(() => {
-    
       socket.on('connect', () => {
         console.log("connected as player1!");
         socket.emit("room", { roomId: room.id });
@@ -148,6 +146,9 @@ export default function Room1() {
       socket.on('seek', (time) => {
         // player.seekTo(time);
         // player.playVideo();
+      })
+      socket.on('disconnect', () => {
+        console.log("disconnected");
       })
   },[player1])
 
