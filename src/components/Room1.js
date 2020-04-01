@@ -16,8 +16,8 @@ import YouTubePlayer from 'react-player/lib/players/YouTube';
 
 import { getVideoId } from '../helpers/videoHelpers';
 
-const socket = io(process.env.REACT_APP_API_URL);
-
+// const socket = io(process.env.REACT_APP_API_URL);
+let socket;
 
 function Room1() {
   let { roomId } = useParams();
@@ -56,7 +56,10 @@ function Room1() {
   let num = 0;
 
   useEffect(() => {
+    if (player1 && room.id) {
+      socket = io(process.env.REACT_APP_API_URL);
       console.log(player1);
+      console.log(socket);
       socket.on('connect', () => {
         console.log("connected as player1!");
         socket.emit("room", { roomId: room.id });
@@ -84,7 +87,8 @@ function Room1() {
       socket.on('disconnect', () => {
         console.log("disconnected");
       })
-  },[player1])
+    }
+  },[player1, room.id])
 
   const handleSeekMouseDown = (e) => {
     setSeeking(true);
