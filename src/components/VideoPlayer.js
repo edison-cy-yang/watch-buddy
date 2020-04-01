@@ -8,7 +8,7 @@ import io from 'socket.io-client';
 import YouTubePlayer from 'react-player/lib/players/YouTube';
 
 
-let socket;
+// let socket;
 
 function VideoPlayer(props) {
 
@@ -19,32 +19,32 @@ function VideoPlayer(props) {
 
   useEffect(() => {
     if (player && props.room.id) {
-      socket = io(process.env.REACT_APP_API_URL);
+      // socket = io(process.env.REACT_APP_API_URL);
       console.log(player);
-      console.log(socket);
-      socket.on('connect', () => {
-        console.log("connected as player!");
-        socket.emit("room", { roomId: props.room.id });
-      })
+      console.log(props.socket);
+      // socket.on('connect', () => {
+      //   console.log("connected as player!");
+      //   socket.emit("room", { roomId: props.room.id });
+      // })
 
-      socket.on('plays', () => {
+      props.socket.on('plays', () => {
         console.log("received play in player");
         
         setPlaying(true);
       });
 
-      socket.on('pauses', () => {
+      props.socket.on('pauses', () => {
         console.log("received pause in player");
         setPlaying(false);
       });
 
-      socket.on('seek', (time) => {
+      props.socket.on('seek', (time) => {
         console.log('seek');
         console.log(time);
         setPlayed(parseFloat(time));
         player.seekTo(time);
       })
-      socket.on('disconnect', () => {
+      props.socket.on('disconnect', () => {
         console.log("disconnected");
       })
     }
@@ -73,15 +73,15 @@ function VideoPlayer(props) {
 
   const handlePlayPause = () => {
     if (playing) {
-      socket.emit("pauses");
+      props.socket.emit("pauses");
     } else {
-      socket.emit("plays");
+      props.socket.emit("plays");
     }
     setPlaying(!playing);
   }
 
   const handleSeekChange = (event) => {
-    socket.emit("seek", event.target.value);
+    props.socket.emit("seek", event.target.value);
     setPlayed(parseFloat(event.target.value));
   }
 
