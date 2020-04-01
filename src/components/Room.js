@@ -52,16 +52,16 @@ function Room() {
   return (
     <div>
       {!loading && (
-        <>
-        <VideoPlayer
-          room={room}
-          loading={loading}
-          socket={socket}
-        />
-        <Chat
-          socket={socket}
-        />
-        </>
+        <div style={{display: 'flex', padding: '10px'}}>
+          <VideoPlayer
+            room={room}
+            loading={loading}
+            socket={socket}
+          />
+          <Chat
+            socket={socket}
+          />
+        </div>
       )}
     </div>
   );
