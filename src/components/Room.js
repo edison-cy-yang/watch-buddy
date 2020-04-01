@@ -13,9 +13,7 @@ import io from 'socket.io-client';
 
 import YouTubePlayer from 'react-player/lib/players/YouTube';
 
-import { getVideoId } from '../helpers/videoHelpers';
 
-// const socket = io(process.env.REACT_APP_API_URL);
 let socket;
 
 function Room() {
@@ -118,8 +116,6 @@ function Room() {
 
   return (
     <div>
-      
-      <h2>{roomId}</h2> 
       {!loading && (
         <>
           <h2>{room.title}</h2>

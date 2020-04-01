@@ -44,18 +44,7 @@ export default function Application(props) {
       <div>
         <BrowserRouter>
           <Header auth={auth}/>
-          
-          {/* {auth.id && (
-            <CreateRoom />
-          )} */}
-          {/* <Link to="/feed">Feed</Link>
-          <Link to="/MyRooms">My Rooms</Link>
-          <Link to="/rooms">Rooms</Link> */}
           <Route exact path="/:roomId" component={Room} />
-          {/* <Route exact path="/feed" component={Feed} />
-          <Route exact path="/chatroom" component={ChatRoom} />
-          <Route exact path="/FriendRequests" component={FriendRequests} />
-          <Route exact path="/MyRooms" component={MyRooms} /> */}    
           <Route exact path="/" component={Home} />     
         </BrowserRouter>
       </div>
