@@ -8,10 +8,9 @@ import Feed from './Feed';
 import FriendRequests from './FriendRequests';
 import MyRooms from './MyRooms';
 import ChatRoom from './ChatRoom';
-import Room from './Room';
 import CreateRoom from './CreateRoom';
 import Home from './Home';
-import Room1 from './Room1';
+import Room from './Room';
 
 import axios from 'axios';
 
@@ -52,7 +51,7 @@ export default function Application(props) {
           {/* <Link to="/feed">Feed</Link>
           <Link to="/MyRooms">My Rooms</Link>
           <Link to="/rooms">Rooms</Link> */}
-          <Route exact path="/:roomId" component={Room1} />
+          <Route exact path="/:roomId" component={Room} />
           {/* <Route exact path="/feed" component={Feed} />
           <Route exact path="/chatroom" component={ChatRoom} />
           <Route exact path="/FriendRequests" component={FriendRequests} />

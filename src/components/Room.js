@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
-  useRouteMatch
+  useParams
 } from "react-router-dom";
 
 import axios from 'axios';
 
 import Youtube from 'react-youtube';
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
-import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-import LinearProgress from '@material-ui/core/LinearProgress';
+
 
 import io from 'socket.io-client';
 
@@ -22,7 +16,10 @@ import YouTubePlayer from 'react-player/lib/players/YouTube';
 
 import { getVideoId } from '../helpers/videoHelpers';
 
-export default function Room() {
+// const socket = io(process.env.REACT_APP_API_URL);
+let socket;
+
+function Room() {
   let { roomId } = useParams();
   const [room, setRoom] = useState({
     id: null,
@@ -34,12 +31,12 @@ export default function Room() {
 
   const [loading, setLoading] = useState(true);
   const [videoId, setVideoId] = useState(null);
-  const [player, setPlayer] = useState(null);
-  console.log(videoId);
+  // const [player, setPlayer] = useState(null);
 
   const [played, setPlayed] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [player1, setPlayer1] = useState(null);
+  const [seeking, setSeeking] = useState(false);
 
   useEffect(() => {
     const getRoomByUid = async (uid) => {
@@ -55,108 +52,76 @@ export default function Room() {
     getRoomByUid(roomId);
   }, [roomId])
 
-  const socket = io(process.env.REACT_APP_API_URL);
+
+  let num = 0;
 
   useEffect(() => {
-    if (player) {
-    
+    if (player1 && room.id) {
+      socket = io(process.env.REACT_APP_API_URL);
+      console.log(player1);
+      console.log(socket);
       socket.on('connect', () => {
-        console.log("connected!");
+        console.log("connected as player1!");
         socket.emit("room", { roomId: room.id });
       })
 
-      socket.on('play', () => {
-        if (player) {
-          console.log("received play");
-          // player.playVideo();
-          setPlaying(!playing);
-        }
+      socket.on('plays', () => {
+        console.log("received play in player1");
+        
+        setPlaying(true);
       });
 
-      socket.on('pause', () => {
-        player.pauseVideo();
+      socket.on('pauses', () => {
+        console.log("received pause in player1");
+        setPlaying(false);
       });
 
       socket.on('seek', (time) => {
-        player.seekTo(time);
-        player.playVideo();
+        // player.seekTo(time);
+        // player.playVideo();
+        console.log('seek');
+        console.log(time);
+        setPlayed(parseFloat(time));
+        player1.seekTo(time);
+      })
+      socket.on('disconnect', () => {
+        console.log("disconnected");
       })
     }
-  },[player])
-
-  const opts = {
-    height: '390',
-    width: '640',
-    playerVars: { // https://developers.google.com/youtube/player_parameters
-      autoplay: 1,
-      controls: 0
-    }
-  };
-
-  const onReady = (event) => {
-    event.target.stopVideo();
-    console.log("set player");
-    setPlayer(event.target);
-  }
-
-  const onPlay = (event) => {
-    // console.log("play!");
-    // socket.emit("play");
-  }
-
-  const onPause = (event) => {
-    // console.log(event)
-    // console.log("pause!");
-    // socket.emit("pause");
-  }
-
-  const onStateChange = (event) => {
-    if (event.data === 3) {
-      console.log(event.target.playerInfo.currentTime);
-      socket.emit("seek", event.target.playerInfo.currentTime);
-    }
-  }
-
-  const play = (event) => {
-    player.playVideo();
-    socket.emit('play');
-  }
-
-  const pause = (event) => {
-    player.pauseVideo()
-    socket.emit('pause');
-  }
-
-
+  },[player1, room.id])
 
   const handleSeekMouseDown = (e) => {
-
+    setSeeking(true);
   }
+
 
   const handleSeekMouseUp = (e) => {
     console.log(e.target.value);
+    setSeeking(false);
     player1.seekTo(parseFloat(e.target.value));
   }
 
   const handleProgress = (state) => {
-    setPlayed(state.played);
+    console.log('on progress', state.played);
+    if (!seeking)
+      setPlayed(state.played);
   }
 
   const ref = (player) => {
-    console.log(player);
     setPlayer1(player);
   }
 
   const handlePlayPause = () => {
     if (playing) {
-      socket.emit("pause");
+      socket.emit("pauses");
     } else {
-      socket.emit("play");
+      socket.emit("plays");
     }
     setPlaying(!playing);
   }
 
   const handleSeekChange = (event) => {
+    socket.emit("seek", event.target.value);
     setPlayed(parseFloat(event.target.value));
   }
 
@@ -167,16 +132,6 @@ export default function Room() {
       {!loading && (
         <>
           <h2>{room.title}</h2>
-          <Youtube
-            videoId={videoId}
-            opts={opts}
-            onReady={onReady}
-            onPlay={onPlay}
-            onPause={onPause}
-            onStateChange={onStateChange}
-          />
-          <Button onClick={play}>Play</Button>
-          <Button onClick={pause}>Pause</Button>
           
           <YouTubePlayer 
             ref={ref}
@@ -197,3 +152,5 @@ export default function Room() {
     </div>
   );
 }
+
+export default Room;
