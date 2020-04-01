@@ -6,7 +6,6 @@ import {
 
 import axios from 'axios';
 
-import Youtube from 'react-youtube';
 import Button from '@material-ui/core/Button';
 
 
@@ -31,7 +30,6 @@ function Room() {
 
   const [loading, setLoading] = useState(true);
   const [videoId, setVideoId] = useState(null);
-  // const [player, setPlayer] = useState(null);
 
   const [played, setPlayed] = useState(0);
   const [playing, setPlaying] = useState(false);
@@ -51,9 +49,6 @@ function Room() {
     }
     getRoomByUid(roomId);
   }, [roomId])
-
-
-  let num = 0;
 
   useEffect(() => {
     if (player1 && room.id) {
@@ -77,8 +72,6 @@ function Room() {
       });
 
       socket.on('seek', (time) => {
-        // player.seekTo(time);
-        // player.playVideo();
         console.log('seek');
         console.log(time);
         setPlayed(parseFloat(time));
