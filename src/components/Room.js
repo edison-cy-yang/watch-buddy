@@ -33,7 +33,7 @@ function Room() {
 
   const [played, setPlayed] = useState(0);
   const [playing, setPlaying] = useState(false);
-  const [player1, setPlayer1] = useState(null);
+  const [player, setPlayer] = useState(null);
   const [seeking, setSeeking] = useState(false);
 
   useEffect(() => {
@@ -51,23 +51,23 @@ function Room() {
   }, [roomId])
 
   useEffect(() => {
-    if (player1 && room.id) {
+    if (player && room.id) {
       socket = io(process.env.REACT_APP_API_URL);
-      console.log(player1);
+      console.log(player);
       console.log(socket);
       socket.on('connect', () => {
-        console.log("connected as player1!");
+        console.log("connected as player!");
         socket.emit("room", { roomId: room.id });
       })
 
       socket.on('plays', () => {
-        console.log("received play in player1");
+        console.log("received play in player");
         
         setPlaying(true);
       });
 
       socket.on('pauses', () => {
-        console.log("received pause in player1");
+        console.log("received pause in player");
         setPlaying(false);
       });
 
@@ -75,13 +75,13 @@ function Room() {
         console.log('seek');
         console.log(time);
         setPlayed(parseFloat(time));
-        player1.seekTo(time);
+        player.seekTo(time);
       })
       socket.on('disconnect', () => {
         console.log("disconnected");
       })
     }
-  },[player1, room.id])
+  },[player, room.id])
 
   const handleSeekMouseDown = (e) => {
     setSeeking(true);
@@ -91,7 +91,7 @@ function Room() {
   const handleSeekMouseUp = (e) => {
     console.log(e.target.value);
     setSeeking(false);
-    player1.seekTo(parseFloat(e.target.value));
+    player.seekTo(parseFloat(e.target.value));
   }
 
   const handleProgress = (state) => {
@@ -101,7 +101,7 @@ function Room() {
   }
 
   const ref = (player) => {
-    setPlayer1(player);
+    setPlayer(player);
   }
 
   const handlePlayPause = () => {
