@@ -1,12 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import {
-  BrowserRouter as Router,
-  useParams
-} from "react-router-dom";
+import React, {useEffect, useState} from 'react';
 
-import axios from 'axios';
-
-import Youtube from 'react-youtube';
 import Button from '@material-ui/core/Button';
 
 
@@ -14,81 +7,48 @@ import io from 'socket.io-client';
 
 import YouTubePlayer from 'react-player/lib/players/YouTube';
 
-import { getVideoId } from '../helpers/videoHelpers';
 
-// const socket = io(process.env.REACT_APP_API_URL);
 let socket;
 
-function Room1() {
-  let { roomId } = useParams();
-  const [room, setRoom] = useState({
-    id: null,
-    uid: null,
-    title: null,
-    video_url: null,
-    owner_id: null
-  });
-
-  const [loading, setLoading] = useState(true);
-  const [videoId, setVideoId] = useState(null);
-  // const [player, setPlayer] = useState(null);
+function VideoPlayer(props) {
 
   const [played, setPlayed] = useState(0);
   const [playing, setPlaying] = useState(false);
-  const [player1, setPlayer1] = useState(null);
+  const [player, setPlayer] = useState(null);
   const [seeking, setSeeking] = useState(false);
 
   useEffect(() => {
-    const getRoomByUid = async (uid) => {
-      const room = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/uid/${uid}`);
-      if (room.data) {
-        setRoom(room.data);
-        setVideoId(getVideoId(room.data.video_url));
-        setLoading(false);
-      } else {
-        console.log("room does not exist");
-      }
-    }
-    getRoomByUid(roomId);
-  }, [roomId])
-
-
-  let num = 0;
-
-  useEffect(() => {
-    if (player1 && room.id) {
+    if (player && props.room.id) {
       socket = io(process.env.REACT_APP_API_URL);
-      console.log(player1);
+      console.log(player);
       console.log(socket);
       socket.on('connect', () => {
-        console.log("connected as player1!");
-        socket.emit("room", { roomId: room.id });
+        console.log("connected as player!");
+        socket.emit("room", { roomId: props.room.id });
       })
 
       socket.on('plays', () => {
-        console.log("received play in player1");
+        console.log("received play in player");
         
         setPlaying(true);
       });
 
       socket.on('pauses', () => {
-        console.log("received pause in player1");
+        console.log("received pause in player");
         setPlaying(false);
       });
 
       socket.on('seek', (time) => {
-        // player.seekTo(time);
-        // player.playVideo();
         console.log('seek');
         console.log(time);
         setPlayed(parseFloat(time));
-        player1.seekTo(time);
+        player.seekTo(time);
       })
       socket.on('disconnect', () => {
         console.log("disconnected");
       })
     }
-  },[player1, room.id])
+  },[player, props.room.id])
 
   const handleSeekMouseDown = (e) => {
     setSeeking(true);
@@ -98,7 +58,7 @@ function Room1() {
   const handleSeekMouseUp = (e) => {
     console.log(e.target.value);
     setSeeking(false);
-    player1.seekTo(parseFloat(e.target.value));
+    player.seekTo(parseFloat(e.target.value));
   }
 
   const handleProgress = (state) => {
@@ -108,7 +68,7 @@ function Room1() {
   }
 
   const ref = (player) => {
-    setPlayer1(player);
+    setPlayer(player);
   }
 
   const handlePlayPause = () => {
@@ -127,15 +87,13 @@ function Room1() {
 
   return (
     <div>
-      
-      <h2>{roomId}</h2> 
-      {!loading && (
+      {!props.loading && (
         <>
-          <h2>{room.title}</h2>
+          <h2>{props.room.title}</h2>
           
           <YouTubePlayer 
             ref={ref}
-            url={room.video_url} 
+            url={props.room.video_url} 
             onProgress={handleProgress} 
             playing={playing}
           />
@@ -150,7 +108,7 @@ function Room1() {
         </> 
       )}
     </div>
-  );
+  )
 }
 
-export default Room1;
+export default VideoPlayer;
