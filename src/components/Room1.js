@@ -36,6 +36,7 @@ function Room1() {
   const [played, setPlayed] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [player1, setPlayer1] = useState(null);
+  const [seeking, setSeeking] = useState(false);
 
   useEffect(() => {
     const getRoomByUid = async (uid) => {
@@ -51,82 +52,11 @@ function Room1() {
     getRoomByUid(roomId);
   }, [roomId])
 
-  // const socket = io(process.env.REACT_APP_API_URL);
-
-  // useEffect(() => {
-  //   if (player) {
-    
-  //     socket.on('connect', () => {
-  //       console.log("connected!");
-  //       socket.emit("room", { roomId: room.id });
-  //     })
-
-  //     socket.on('play', () => {
-  //       if (player) {
-  //         console.log("received play");
-  //         player.playVideo();
-  //         // setPlaying(!playing);
-  //       }
-  //     });
-
-  //     socket.on('pause', () => {
-  //       console.log("received pause");
-  //       player.pauseVideo();
-  //     });
-
-  //     socket.on('seek', (time) => {
-  //       player.seekTo(time);
-  //       player.playVideo();
-  //     })
-  //   }
-  // },[player])
-
-  // const opts = {
-  //   height: '390',
-  //   width: '640',
-  //   playerVars: { // https://developers.google.com/youtube/player_parameters
-  //     autoplay: 1
-  //   }
-  // };
-
-  // const onReady = (event) => {
-  //   event.target.stopVideo();
-  //   console.log("set player");
-  //   setPlayer(event.target);
-  // }
-
-  // const onPlay = (event) => {
-  //   console.log("play!");
-  //   socket.emit("play");
-  // }
-
-  // const onPause = (event) => {
-  //   console.log(event)
-  //   console.log("pause!");
-  //   socket.emit("pause");
-  // }
-
-  // const onStateChange = (event) => {
-  //   if (event.data === 3) {
-  //     console.log(event.target.playerInfo.currentTime);
-  //     socket.emit("seek", event.target.playerInfo.currentTime);
-  //   }
-  // }
-
-  // const play = (event) => {
-  //   player.playVideo();
-  //   socket.emit('play');
-  // }
-
-  // const pause = (event) => {
-  //   player.pauseVideo()
-  //   socket.emit('pause');
-  // }
-
 
   let num = 0;
 
   useEffect(() => {
+      console.log(player1);
       socket.on('connect', () => {
         console.log("connected as player1!");
         socket.emit("room", { roomId: room.id });
@@ -146,6 +76,10 @@ function Room1() {
       socket.on('seek', (time) => {
         // player.seekTo(time);
         // player.playVideo();
+        console.log('seek');
+        console.log(time);
+        setPlayed(parseFloat(time));
+        player1.seekTo(time);
       })
       socket.on('disconnect', () => {
         console.log("disconnected");
@@ -153,16 +87,20 @@ function Room1() {
   },[player1])
 
   const handleSeekMouseDown = (e) => {
-
+    setSeeking(true);
   }
+
 
   const handleSeekMouseUp = (e) => {
     console.log(e.target.value);
+    setSeeking(false);
     player1.seekTo(parseFloat(e.target.value));
   }
 
   const handleProgress = (state) => {
-    setPlayed(state.played);
+    console.log('on progress', state.played);
+    if (!seeking)
+      setPlayed(state.played);
   }
 
   const ref = (player) => {
@@ -179,6 +117,7 @@ function Room1() {
   }
 
   const handleSeekChange = (event) => {
+    socket.emit("seek", event.target.value);
     setPlayed(parseFloat(event.target.value));
   }
 
@@ -189,16 +128,6 @@ function Room1() {
       {!loading && (
         <>
           <h2>{room.title}</h2>
-          {/* <Youtube
-            videoId={videoId}
-            opts={opts}
-            onReady={onReady}
-            onPlay={onPlay}
-            onPause={onPause}
-            onStateChange={onStateChange}
-          />
-          <Button onClick={play}>Play</Button>
-          <Button onClick={pause}>Pause</Button> */}
           
           <YouTubePlayer 
             ref={ref}
