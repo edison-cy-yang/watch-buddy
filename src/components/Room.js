@@ -29,7 +29,6 @@ function Room() {
   });
 
   const [loading, setLoading] = useState(true);
-  const [videoId, setVideoId] = useState(null);
 
   const [played, setPlayed] = useState(0);
   const [playing, setPlaying] = useState(false);
@@ -41,7 +40,6 @@ function Room() {
       const room = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/uid/${uid}`);
       if (room.data) {
         setRoom(room.data);
-        setVideoId(getVideoId(room.data.video_url));
         setLoading(false);
       } else {
         console.log("room does not exist");
