@@ -7,6 +7,11 @@ import {
 import axios from 'axios';
 
 import VideoPlayer from './VideoPlayer';
+import Chat from './Chat';
+
+import io from 'socket.io-client';
+
+let socket;
 
 function Room() {
   let { roomId } = useParams();
@@ -33,14 +38,30 @@ function Room() {
     getRoomByUid(roomId);
   }, [roomId])
 
+  useEffect(() => {
+    if (room.id) {
+      socket = io(process.env.REACT_APP_API_URL);
+      socket.on('connect', () => {
+        console.log("connected as player!");
+        socket.emit("room", { roomId: room.id });
+      });
+    }
+  }, [room.id])
+
 
   return (
     <div>
       {!loading && (
-        <VideoPlayer
-          room={room}
-          loading={loading}
-        />
+        <div style={{display: 'flex', padding: '10px'}}>
+          <VideoPlayer
+            room={room}
+            loading={loading}
+            socket={socket}
+          />
+          <Chat
+            socket={socket}
+          />
+        </div>
       )}
     </div>
   );
