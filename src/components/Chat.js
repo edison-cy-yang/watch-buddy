@@ -33,7 +33,7 @@ export default function Chat(props) {
       setMessages((prev) => ([...prev, {
         position: 'left',
         type: 'text',
-        text: message,
+        text: `${message.user.name}: ${message.message}`,
         date: new Date()
       }]))
     })
@@ -53,7 +53,7 @@ export default function Chat(props) {
       date: new Date()
     }]);
     setMessage("");
-    props.socket.emit('message', message);
+    props.socket.emit('message', {user: {id: auth.id, name: auth.name}, message});
   };
 
   return (
