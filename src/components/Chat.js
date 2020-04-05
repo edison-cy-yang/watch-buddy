@@ -56,20 +56,29 @@ export default function Chat(props) {
     props.socket.emit('message', {user: {id: auth.id, name: auth.name}, message});
   };
 
+  const onKeyPress = (e) => {
+    if (e.charCode !== 13)
+      return;
+    onSend();
+  }
+
   return (
     <div>
       <h1>Chat</h1>
-      <MessageList
-        className='message-list'
-        lockable={true}
-        toBottomHeight={'100%'}
-        dataSource={messages}
-      />
+      <div style={{width: '300px', height: '350px', overflowY: 'scroll'}}>
+        <MessageList
+          className='message-list'
+          lockable={true}
+          toBottomHeight={'100%'}
+          dataSource={messages}
+        />
+      </div>
       <TextField
         multiline
         placeholder="Type here..."
         value={message}
         onChange={handleMessage}
+        onKeyPress={onKeyPress}
       />
       <Button
         onClick={onSend}
