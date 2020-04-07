@@ -65,7 +65,7 @@ export default function Chat(props) {
   return (
     <div>
       <h1>Chat</h1>
-      <div style={{width: '300px', height: '350px', overflowY: 'scroll'}}>
+      <div style={{width: '400px', height: '350px', overflowY: 'scroll', position: 'relative', bottom: 0}}>
         <MessageList
           className='message-list'
           lockable={true}
@@ -74,6 +74,7 @@ export default function Chat(props) {
         />
       </div>
       <TextField
+        style={{width: '350px'}}
         multiline
         placeholder="Type here..."
         value={message}
