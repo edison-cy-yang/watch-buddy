@@ -65,7 +65,7 @@ export default function Chat(props) {
   return (
     <div>
       <h1>Chat</h1>
-      <div style={{width: '400px', height: '350px', overflowY: 'scroll', position: 'relative', bottom: 0}}>
+      <div style={{width: '400px', height: '350px', overflowY: 'scroll', position: 'relative', bottom: 0, display: 'flex', flexDirection: 'column-reverse'}}>
         <MessageList
           className='message-list'
           lockable={true}
