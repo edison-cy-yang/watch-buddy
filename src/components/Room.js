@@ -52,7 +52,7 @@ function Room() {
   return (
     <div>
       {!loading && (
-        <div style={{display: 'flex', padding: '10px'}}>
+        <div style={{display: 'flex', padding: '10px', justifyContent: 'space-between'}}>
           <VideoPlayer
             room={room}
             loading={loading}
