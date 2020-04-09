@@ -9,6 +9,8 @@ import YouTubePlayer from 'react-player/lib/players/YouTube';
 
 import './VideoPlayer.scss';
 
+import {format, pad} from '../helpers/videoHelpers';
+
 // let socket;
 
 function VideoPlayer(props) {
@@ -64,7 +66,6 @@ function VideoPlayer(props) {
   }
 
   const handleProgress = (state) => {
-    console.log('on progress', state);
     if (!seeking)
       setPlayed(state.played);
   }
@@ -114,7 +115,7 @@ function VideoPlayer(props) {
             onMouseUp={handleSeekMouseUp}
           />
           <Button onClick={handlePlayPause}>{playing? 'Pause' : 'Play'}</Button>
-          <span>{played * duration} / {duration}</span>
+          <span>{format(played * duration)} / {format(duration)}</span>
         </> 
       )}
     </div>
