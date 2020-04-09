@@ -12,3 +12,8 @@
     align-items: center;
   }
 }
+
+a:-webkit-any-link {
+  text-decoration: none;
+  color: inherit;
+}
