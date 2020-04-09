@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
 
 import Button from '@material-ui/core/Button';
-
+import IconButton from '@material-ui/core/IconButton';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import PauseIcon from '@material-ui/icons/Pause';
 
 import io from 'socket.io-client';
 
@@ -114,7 +116,10 @@ function VideoPlayer(props) {
             onChange={handleSeekChange}
             onMouseUp={handleSeekMouseUp}
           />
-          <Button onClick={handlePlayPause}>{playing? 'Pause' : 'Play'}</Button>
+          <IconButton onClick={handlePlayPause}>
+            {playing && (<PauseIcon />) }
+            {!playing && (<PlayArrowIcon />) }
+          </IconButton>
           <span>{format(played * duration)} / {format(duration)}</span>
         </> 
       )}
