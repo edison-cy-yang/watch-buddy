@@ -117,8 +117,8 @@ function VideoPlayer(props) {
             onMouseUp={handleSeekMouseUp}
           />
           <IconButton onClick={handlePlayPause}>
-            {playing && (<PauseIcon />) }
-            {!playing && (<PlayArrowIcon />) }
+            {playing && (<PauseIcon fontSize='large' />) }
+            {!playing && (<PlayArrowIcon fontSize='large' />) }
           </IconButton>
           <span>{format(played * duration)} / {format(duration)}</span>
         </> 
