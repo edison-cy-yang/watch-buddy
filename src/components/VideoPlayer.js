@@ -7,6 +7,7 @@ import io from 'socket.io-client';
 
 import YouTubePlayer from 'react-player/lib/players/YouTube';
 
+import './VideoPlayer.scss';
 
 // let socket;
 
@@ -97,7 +98,6 @@ function VideoPlayer(props) {
             onProgress={handleProgress} 
             playing={playing}
           />
-          <Button onClick={handlePlayPause}>{playing? 'Pause' : 'Play'}</Button>
           <input
             type='range' min={0} max={0.999999} step='any'
             value={played}
@@ -105,6 +105,7 @@ function VideoPlayer(props) {
             onChange={handleSeekChange}
             onMouseUp={handleSeekMouseUp}
           />
+          <Button onClick={handlePlayPause}>{playing? 'Pause' : 'Play'}</Button>
         </> 
       )}
     </div>
