@@ -1,13 +1,17 @@
 import React, {useEffect, useState} from 'react';
 
 import Button from '@material-ui/core/Button';
-
+import IconButton from '@material-ui/core/IconButton';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import PauseIcon from '@material-ui/icons/Pause';
 
 import io from 'socket.io-client';
 
 import YouTubePlayer from 'react-player/lib/players/YouTube';
 
 import './VideoPlayer.scss';
+
+import {format, pad} from '../helpers/videoHelpers';
 
 // let socket;
 
@@ -64,7 +68,6 @@ function VideoPlayer(props) {
   }
 
   const handleProgress = (state) => {
-    console.log('on progress', state);
     if (!seeking)
       setPlayed(state.played);
   }
@@ -113,8 +116,11 @@ function VideoPlayer(props) {
             onChange={handleSeekChange}
             onMouseUp={handleSeekMouseUp}
           />
-          <Button onClick={handlePlayPause}>{playing? 'Pause' : 'Play'}</Button>
-          <span>{played * duration} / {duration}</span>
+          <IconButton onClick={handlePlayPause}>
+            {playing && (<PauseIcon fontSize='large' />) }
+            {!playing && (<PlayArrowIcon fontSize='large' />) }
+          </IconButton>
+          <span>{format(played * duration)} / {format(duration)}</span>
         </> 
       )}
     </div>
