@@ -7,6 +7,7 @@ import io from 'socket.io-client';
 
 import YouTubePlayer from 'react-player/lib/players/YouTube';
 
+import './VideoPlayer.scss';
 
 // let socket;
 
@@ -16,6 +17,7 @@ function VideoPlayer(props) {
   const [playing, setPlaying] = useState(false);
   const [player, setPlayer] = useState(null);
   const [seeking, setSeeking] = useState(false);
+  const [duration, setDuration] = useState(0);
 
   useEffect(() => {
     if (player && props.room.id) {
@@ -62,13 +64,15 @@ function VideoPlayer(props) {
   }
 
   const handleProgress = (state) => {
-    console.log('on progress', state.played);
+    console.log('on progress', state);
     if (!seeking)
       setPlayed(state.played);
   }
 
   const ref = (player) => {
-    setPlayer(player);
+    if (player) {
+      setPlayer(player);
+    }
   }
 
   const handlePlayPause = () => {
@@ -85,6 +89,10 @@ function VideoPlayer(props) {
     setPlayed(parseFloat(event.target.value));
   }
 
+  const handleDuration = (duration) => {
+    setDuration(duration);
+  }
+
   return (
     <div>
       {!props.loading && (
@@ -96,8 +104,8 @@ function VideoPlayer(props) {
             url={props.room.video_url} 
             onProgress={handleProgress} 
             playing={playing}
+            onDuration={handleDuration}
           />
-          <Button onClick={handlePlayPause}>{playing? 'Pause' : 'Play'}</Button>
           <input
             type='range' min={0} max={0.999999} step='any'
             value={played}
@@ -105,6 +113,8 @@ function VideoPlayer(props) {
             onChange={handleSeekChange}
             onMouseUp={handleSeekMouseUp}
           />
+          <Button onClick={handlePlayPause}>{playing? 'Pause' : 'Play'}</Button>
+          <span>{played * duration} / {duration}</span>
         </> 
       )}
     </div>
