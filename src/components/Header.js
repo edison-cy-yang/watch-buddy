@@ -76,8 +76,8 @@ export default function MenuAppBar(props) {
           )}
           {!auth.id && (
             <div>
-              <Button variant="contained">
-                <a href={`${process.env.REACT_APP_API_URL}/users/auth/google`}>Sign in with Google</a>
+              <Button href={`${process.env.REACT_APP_API_URL}/users/auth/google`}>
+                Sign in with Google
               </Button>
             </div>
           )}
