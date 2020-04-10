@@ -37,7 +37,7 @@ export default function MenuAppBar(props) {
               Watch Buddy
             </Link>
           </Typography>
-          {auth.id && (
+          {!auth.loading && auth.id && (
             <div className="auth-info">
               <IconButton
                 aria-label="account of current user"
@@ -74,7 +74,7 @@ export default function MenuAppBar(props) {
               </Typography>
             </div>
           )}
-          {!auth.id && (
+          {!auth.loading && !auth.id && (
             <div>
               <Button href={`${process.env.REACT_APP_API_URL}/users/auth/google`}>
                 Sign in with Google
