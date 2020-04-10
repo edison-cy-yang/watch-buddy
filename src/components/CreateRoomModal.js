@@ -100,7 +100,6 @@ export default function CreateRoomModal(props) {
 
   return (
     <div>
-      <h1>I am Create Room</h1>
       <div className="add-icon">
         <IconButton className={classes.button} color="primary" aria-label="Create New Room" onClick={handleOpen}>
           <AddCircleIcon />
