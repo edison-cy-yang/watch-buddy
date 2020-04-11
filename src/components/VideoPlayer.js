@@ -108,6 +108,8 @@ function VideoPlayer(props) {
             onProgress={handleProgress} 
             playing={playing}
             onDuration={handleDuration}
+            width='854px'
+            height='480px'
           />
           <input
             type='range' min={0} max={0.999999} step='any'
