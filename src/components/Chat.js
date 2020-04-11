@@ -60,7 +60,7 @@ export default function Chat(props) {
   }
 
   return (
-    <div>
+    <div style={{margin: '10px'}}>
       <h2>Chat</h2>
       <div style={{width: '400px', height: '470px', overflowY: 'auto', position: 'relative', bottom: 0, display: 'flex', flexDirection: 'column-reverse', backgroundColor: 'white', margin: '5px', borderRadius: 10, padding: '5px'}}>
         <MessageList

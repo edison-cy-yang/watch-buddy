@@ -105,7 +105,10 @@ input[type=range]:focus::-ms-fill-upper {
   background: #367ebd;
 }
 
-.player {
-  background: white;
-  border-radius: 1em;
+.player-content {
+  margin: 10px;
+  .player {
+    background: white;
+    border-radius: 1em;
+  }
 }

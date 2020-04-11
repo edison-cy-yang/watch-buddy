@@ -97,7 +97,7 @@ function VideoPlayer(props) {
   }
 
   return (
-    <div>
+    <div className="player-content">
       {!props.loading && (
         <>
           <h2>{props.room.title}</h2>
