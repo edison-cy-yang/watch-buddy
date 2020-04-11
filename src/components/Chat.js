@@ -1,13 +1,8 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import UserContext from '../contexts/UserContext';
 
-// import { Widget, addResponseMessage } from 'react-chat-widget';
-// import 'react-chat-widget/lib/styles.css';
-
 import 'react-chat-elements/dist/main.css';
 import { MessageBox, MessageList } from 'react-chat-elements';
-
-// import { Launcher } from 'react-chat-window';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -28,7 +23,6 @@ export default function Chat(props) {
 
   useEffect(() => {
     props.socket.on('message', (message) => {
-      // addResponseMessage("play");
       console.log("got message");
       setMessages((prev) => ([...prev, {
         position: 'left',
@@ -59,6 +53,7 @@ export default function Chat(props) {
   const onKeyPress = (e) => {
     if (e.charCode !== 13)
       return;
+    e.preventDefault();
     onSend();
   }
 
