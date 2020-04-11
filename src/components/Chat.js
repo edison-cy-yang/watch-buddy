@@ -1,16 +1,13 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
 import UserContext from '../contexts/UserContext';
 
-// import { Widget, addResponseMessage } from 'react-chat-widget';
-// import 'react-chat-widget/lib/styles.css';
-
 import 'react-chat-elements/dist/main.css';
 import { MessageBox, MessageList } from 'react-chat-elements';
 
-// import { Launcher } from 'react-chat-window';
-
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import SendIcon from '@material-ui/icons/Send';
+import IconButton from '@material-ui/core/IconButton';
 
 export default function Chat(props) {
   const [messages, setMessages] = useState([
@@ -28,7 +25,6 @@ export default function Chat(props) {
 
   useEffect(() => {
     props.socket.on('message', (message) => {
-      // addResponseMessage("play");
       console.log("got message");
       setMessages((prev) => ([...prev, {
         position: 'left',
@@ -59,13 +55,14 @@ export default function Chat(props) {
   const onKeyPress = (e) => {
     if (e.charCode !== 13)
       return;
+    e.preventDefault();
     onSend();
   }
 
   return (
     <div>
-      <h1>Chat</h1>
-      <div style={{width: '400px', height: '350px', overflowY: 'scroll', position: 'relative', bottom: 0, display: 'flex', flexDirection: 'column-reverse'}}>
+      <h2>Chat</h2>
+      <div style={{width: '400px', height: '350px', overflowY: 'auto', position: 'relative', bottom: 0, display: 'flex', flexDirection: 'column-reverse', backgroundColor: 'white', margin: '5px', borderRadius: 10, padding: '5px'}}>
         <MessageList
           className='message-list'
           lockable={true}
@@ -73,19 +70,19 @@ export default function Chat(props) {
           dataSource={messages}
         />
       </div>
-      <TextField
-        style={{width: '350px'}}
-        multiline
-        placeholder="Type here..."
-        value={message}
-        onChange={handleMessage}
-        onKeyPress={onKeyPress}
-      />
-      <Button
-        onClick={onSend}
-      >
-        Send
-      </Button>
+      <div style={{backgroundColor: 'white', margin: '5px', borderRadius: 10, padding: '5px'}}>
+        <TextField
+          style={{width: '350px'}}
+          multiline
+          placeholder="Type here..."
+          value={message}
+          onChange={handleMessage}
+          onKeyPress={onKeyPress}
+        />
+        <IconButton color="primary" onClick={onSend} disabled={message === ""}>
+          <SendIcon />
+        </IconButton>
+      </div>
     </div>
   )
 }
