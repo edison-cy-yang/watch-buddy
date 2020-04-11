@@ -80,7 +80,7 @@ export default function Application(props) {
 
   return (
     <UserContext.Provider value={auth}>
-      <div>
+      <div style={{backgroundColor: '#F8F8F8',  height: '100vh'}}>
         <BrowserRouter>
           <Header auth={auth}/>
           <Route exact path="/:roomId" component={Room} />
