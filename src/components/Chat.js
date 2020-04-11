@@ -6,6 +6,8 @@ import { MessageBox, MessageList } from 'react-chat-elements';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import SendIcon from '@material-ui/icons/Send';
+import IconButton from '@material-ui/core/IconButton';
 
 export default function Chat(props) {
   const [messages, setMessages] = useState([
@@ -76,11 +78,9 @@ export default function Chat(props) {
         onChange={handleMessage}
         onKeyPress={onKeyPress}
       />
-      <Button
-        onClick={onSend}
-      >
-        Send
-      </Button>
+      <IconButton color="primary" onClick={onSend} disabled={message === ""}>
+        <SendIcon />
+      </IconButton>
     </div>
   )
 }
