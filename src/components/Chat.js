@@ -62,7 +62,7 @@ export default function Chat(props) {
   return (
     <div>
       <h2>Chat</h2>
-      <div style={{width: '400px', height: '350px', overflowY: 'auto', position: 'relative', bottom: 0, display: 'flex', flexDirection: 'column-reverse'}}>
+      <div style={{width: '400px', height: '350px', overflowY: 'auto', position: 'relative', bottom: 0, display: 'flex', flexDirection: 'column-reverse', backgroundColor: 'white', margin: '5px', borderRadius: 10, padding: '5px'}}>
         <MessageList
           className='message-list'
           lockable={true}
@@ -70,17 +70,19 @@ export default function Chat(props) {
           dataSource={messages}
         />
       </div>
-      <TextField
-        style={{width: '350px'}}
-        multiline
-        placeholder="Type here..."
-        value={message}
-        onChange={handleMessage}
-        onKeyPress={onKeyPress}
-      />
-      <IconButton color="primary" onClick={onSend} disabled={message === ""}>
-        <SendIcon />
-      </IconButton>
+      <div style={{backgroundColor: 'white', margin: '5px', borderRadius: 10, padding: '5px'}}>
+        <TextField
+          style={{width: '350px'}}
+          multiline
+          placeholder="Type here..."
+          value={message}
+          onChange={handleMessage}
+          onKeyPress={onKeyPress}
+        />
+        <IconButton color="primary" onClick={onSend} disabled={message === ""}>
+          <SendIcon />
+        </IconButton>
+      </div>
     </div>
   )
 }
