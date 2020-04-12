@@ -37,7 +37,7 @@ export default function MenuAppBar(props) {
               Watch Buddy
             </Link>
           </Typography>
-          {auth.id && (
+          {!auth.loading && auth.id && (
             <div className="auth-info">
               <IconButton
                 aria-label="account of current user"
@@ -63,8 +63,6 @@ export default function MenuAppBar(props) {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Friend Requests</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
                 <MenuItem>
                   <a href={`${process.env.REACT_APP_API_URL}/users/auth/logout`} style={{textDecoration: 'none'}}>Logout</a>
                 </MenuItem>
@@ -74,10 +72,10 @@ export default function MenuAppBar(props) {
               </Typography>
             </div>
           )}
-          {!auth.id && (
+          {!auth.loading && !auth.id && (
             <div>
-              <Button variant="contained">
-                <a href={`${process.env.REACT_APP_API_URL}/users/auth/google`}>Sign in with Google</a>
+              <Button href={`${process.env.REACT_APP_API_URL}/users/auth/google`}>
+                Sign in with Google
               </Button>
             </div>
           )}

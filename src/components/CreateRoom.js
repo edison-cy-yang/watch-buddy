@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import UserContext from '../contexts/UserContext';
+import CreateRoomModal from './CreateRoomModal';
 
 import { makeStyles } from '@material-ui/core/styles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -17,126 +18,15 @@ import axios from 'axios';
 
 import './CreateRoom.scss';
 
-const useStyles = makeStyles(theme => ({
-  button: {
-    margin: theme.spacing(1),
-    width: '30px',
-    height: '30px'
-  },
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-  createForm: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    width: '200px'
-  },
-  formInput: {
-    margin: '10px'
-  }
-}));
-
 export default function CreateRoom(props) {
-  const classes = useStyles();
-  const [open, setOpen] = useState(false);
-
-  const [title, setTitle] = useState("");
-  const [url, setUrl] = useState("");
-  const [newRoomUrl, setNewRoomUrl] = useState("");
-
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState(false);
-
-  const auth = useContext(UserContext);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setNewRoomUrl("");
-    setTitle("");
-    setUrl("");
-  };
-
-  const createRoom = async (event) => {
-    event.preventDefault();
-    if (title === "" || url === "") {
-      setError(true);
-      return;
-    }
-    setSaving(true);
-    const room = {
-      title,
-      video_url: url
-    }
-    const owner_id = auth.id;
-    try {
-      const newRoom = await axios.post('/rooms', {room, owner_id});
-      console.log(newRoom);
-      setSaving(false);
-      setNewRoomUrl(`http://localhost:3000/${newRoom.data.uid}`);
-    } catch(err) {
-      console.log(err);
-    }
-    
-  }
-
-  const onTitleChange = (event) => {
-    setTitle(event.target.value)
-    setError(false);
-  }
 
   return (
-    <div>
-      <h1>I am Create Room</h1>
-      <div className="add-icon">
-        <IconButton className={classes.button} color="primary" aria-label="Create New Room" onClick={handleOpen}>
-          <AddCircleIcon />
-        </IconButton>
+    <div className="create-room-container">
+      <div className="slogan">
+        <h2>Watch YouTube and chat with your friends together</h2>
+        <h2>Start by creating a room</h2>
       </div>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <div className={classes.paper}>
-            <form className={classes.createForm} onSubmit={createRoom}>
-              <TextField className={classes.formInput} id="outlined-basic" label="title" variant="outlined" onChange={onTitleChange} error={error} />
-              <TextField className={classes.formInput} id="outlined-basic" label="YouTube video URL" variant="outlined" onChange={event => setUrl(event.target.value)} error={error} />
-              {!saving && !newRoomUrl && <Button type="submit" variant="contained" color="primary">Create</Button>}
-              {!saving && newRoomUrl && (
-                <>
-                  <p>URL to your new room: {newRoomUrl}</p>
-                  <CopyToClipboard text={newRoomUrl}>
-                    <Button>Copy to clipboard</Button>
-                  </CopyToClipboard>
-                </>
-              )}
-              {saving && (<CircularProgress />)}
-            </form>
-          </div>
-        </Fade>
-      </Modal>
+      <CreateRoomModal />
     </div>
   );
 };
