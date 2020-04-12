@@ -25,7 +25,6 @@ export default function Chat(props) {
 
   useEffect(() => {
     props.socket.on('message', (message) => {
-      console.log("got message");
       setMessages((prev) => ([...prev, {
         position: 'left',
         type: 'text',
@@ -41,7 +40,6 @@ export default function Chat(props) {
 
   const onSend = () => {
     if (message === "") return;
-    console.log(message);
     setMessages([...messages, {
       position: 'right',
       type: 'text',
