@@ -22,7 +22,10 @@ export default function CreateRoom(props) {
 
   return (
     <div className="create-room-container">
-      <h3 className="slogan">Start watching YouTube and chat with your friends together</h3>
+      <div className="slogan">
+        <h2>Watch YouTube and chat with your friends together</h2>
+        <h2>Start by creating a room</h2>
+      </div>
       <CreateRoomModal />
     </div>
   );
