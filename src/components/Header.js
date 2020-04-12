@@ -63,8 +63,6 @@ export default function MenuAppBar(props) {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Friend Requests</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
                 <MenuItem>
                   <a href={`${process.env.REACT_APP_API_URL}/users/auth/logout`} style={{textDecoration: 'none'}}>Logout</a>
                 </MenuItem>
