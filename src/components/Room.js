@@ -8,6 +8,7 @@ import axios from 'axios';
 
 import VideoPlayer from './VideoPlayer';
 import Chat from './Chat';
+import Error from './Error';
 
 import io from 'socket.io-client';
 
@@ -25,6 +26,8 @@ function Room() {
 
   const [loading, setLoading] = useState(true);
 
+  const [error, setError] = useState("");
+
   useEffect(() => {
     const getRoomByUid = async (uid) => {
       const room = await axios.get(`${process.env.REACT_APP_API_URL}/rooms/uid/${uid}`);
@@ -32,7 +35,9 @@ function Room() {
         setRoom(room.data);
         setLoading(false);
       } else {
-        console.log("room does not exist");
+        console.log(room);
+        setError("Room not found, are you sure you entered the right URL?");
+        setLoading(false);
       }
     }
     getRoomByUid(roomId);
@@ -42,7 +47,6 @@ function Room() {
     if (room.id) {
       socket = io(process.env.REACT_APP_API_URL);
       socket.on('connect', () => {
-        console.log("connected as player!");
         socket.emit("room", { roomId: room.id });
       });
     }
@@ -51,7 +55,7 @@ function Room() {
 
   return (
     <div>
-      {!loading && (
+      {!loading && !error && (
         <div style={{display: 'flex', padding: '20px', justifyContent: 'center'}}>
           <VideoPlayer
             room={room}
@@ -62,6 +66,9 @@ function Room() {
             socket={socket}
           />
         </div>
+      )}
+      {!loading && error && (
+        <Error error={error} />
       )}
     </div>
   );
