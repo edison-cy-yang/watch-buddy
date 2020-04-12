@@ -25,33 +25,19 @@ function VideoPlayer(props) {
 
   useEffect(() => {
     if (player && props.room.id) {
-      // socket = io(process.env.REACT_APP_API_URL);
-      console.log(player);
-      console.log(props.socket);
-      // socket.on('connect', () => {
-      //   console.log("connected as player!");
-      //   socket.emit("room", { roomId: props.room.id });
-      // })
-
-      props.socket.on('plays', () => {
-        console.log("received play in player");
-        
+      props.socket.on('plays', () => {     
         setPlaying(true);
       });
 
       props.socket.on('pauses', () => {
-        console.log("received pause in player");
         setPlaying(false);
       });
 
       props.socket.on('seek', (time) => {
-        console.log('seek');
-        console.log(time);
         setPlayed(parseFloat(time));
         player.seekTo(time);
       })
       props.socket.on('disconnect', () => {
-        console.log("disconnected");
       })
     }
   },[player, props.room.id])
@@ -62,7 +48,6 @@ function VideoPlayer(props) {
 
 
   const handleSeekMouseUp = (e) => {
-    console.log(e.target.value);
     setSeeking(false);
     player.seekTo(parseFloat(e.target.value));
   }
