@@ -97,30 +97,33 @@ function VideoPlayer(props) {
   }
 
   return (
-    <div>
+    <div className="player-content">
       {!props.loading && (
         <>
           <h2>{props.room.title}</h2>
-          
-          <YouTubePlayer 
-            ref={ref}
-            url={props.room.video_url} 
-            onProgress={handleProgress} 
-            playing={playing}
-            onDuration={handleDuration}
-          />
-          <input
-            type='range' min={0} max={0.999999} step='any'
-            value={played}
-            onMouseDown={handleSeekMouseDown}
-            onChange={handleSeekChange}
-            onMouseUp={handleSeekMouseUp}
-          />
-          <IconButton onClick={handlePlayPause}>
-            {playing && (<PauseIcon fontSize='large' />) }
-            {!playing && (<PlayArrowIcon fontSize='large' />) }
-          </IconButton>
-          <span>{format(played * duration)} / {format(duration)}</span>
+          <div className="player">
+            <YouTubePlayer 
+              ref={ref}
+              url={props.room.video_url} 
+              onProgress={handleProgress} 
+              playing={playing}
+              onDuration={handleDuration}
+              width='854px'
+              height='480px'
+            />
+            <input
+              type='range' min={0} max={0.999999} step='any'
+              value={played}
+              onMouseDown={handleSeekMouseDown}
+              onChange={handleSeekChange}
+              onMouseUp={handleSeekMouseUp}
+            />
+            <IconButton onClick={handlePlayPause}>
+              {playing && (<PauseIcon fontSize='large' />) }
+              {!playing && (<PlayArrowIcon fontSize='large' />) }
+            </IconButton>
+            <span>{format(played * duration)} / {format(duration)}</span>
+          </div>
         </> 
       )}
     </div>
