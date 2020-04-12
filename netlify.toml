@@ -12,5 +12,6 @@
   command = "npm run build"
 
 [build.environment]
-  REACT_APP_API_URl = "https://watch-buddy-api.herokuapp.com/"
-  REACT_APP_API_BASE_URL = "https://watch-buddy-api.herokuapp.com/"
+  REACT_APP_API_URl = "https://watch-buddy-api.herokuapp.com"
+  REACT_APP_API_BASE_URL = "https://watch-buddy-api.herokuapp.com"
+  REACT_APP_CLIENT_URL="https://watch-buddy.herokuapp.com"

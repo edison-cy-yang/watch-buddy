@@ -17,7 +17,6 @@ import axios from 'axios';
 const fetchUser = async () => {
   const auth = await axios.get(`${process.env.REACT_APP_API_URL}/users/auth/current_user`, {withCredentials: true});
   if(auth.data) {
-    console.log(auth.data);
     return auth.data;
   } else {
     return null;
@@ -30,7 +29,6 @@ const reducer = async (state, action) => {
       const user = await fetchUser();
       // const user = { id: 1, name: "edison", email: "123@abc.com"};
       if (user) {
-        console.log(user);
         return {
           user
         }
@@ -67,7 +65,6 @@ export default function Application(props) {
     const fetchUser = async () => {
       const auth = await axios.get(`${process.env.REACT_APP_API_URL}/users/auth/current_user`, {withCredentials: true});
       if(auth.data) {
-        console.log(auth.data);
         setAuth({...auth.data, loading: false});
       } else {
         setAuth({...auth.data, loading: false});
