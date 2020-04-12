@@ -39,10 +39,12 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-    width: '200px'
+    width: '400px',
+    height: '300px'
   },
   formInput: {
-    margin: '10px'
+    margin: '10px',
+    width: 350
   }
 }));
 
@@ -125,9 +127,10 @@ export default function CreateRoomModal(props) {
               {!saving && !newRoomUrl && <Button type="submit" variant="contained" color="primary">Create</Button>}
               {!saving && newRoomUrl && (
                 <>
-                  <p>URL to your new room: {newRoomUrl}</p>
+                  <p>URL to your new room:</p>
+                  <p>{newRoomUrl}</p>
                   <CopyToClipboard text={newRoomUrl}>
-                    <Button>Copy to clipboard</Button>
+                    <Button variant="outlined">Copy to clipboard</Button>
                   </CopyToClipboard>
                 </>
               )}
