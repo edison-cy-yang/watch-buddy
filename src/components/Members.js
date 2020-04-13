@@ -9,7 +9,11 @@ export default function Members(props) {
     props.socket.on('new member', (res) => {
       console.log("person joined");
       setNumberOfMembers(res.numOfPeople);
-    })
+    });
+
+    props.socket.on('someone left', (res) => {
+      setNumberOfMembers(res.numOfPeople);
+    });
   }, [])
 
   console.log(members);
