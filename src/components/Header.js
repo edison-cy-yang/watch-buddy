@@ -18,8 +18,6 @@ export default function MenuAppBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const auth = useContext(UserContext);
-  console.log("auth is ");
-  console.log(auth);
 
   const handleMenu = event => {
     setAnchorEl(event.currentTarget);
@@ -34,7 +32,7 @@ export default function MenuAppBar(props) {
         <Toolbar>
           <Typography variant="h4" className="title">
             <Link to="/">
-              Watch Buddy
+              Couch Tomatoes
             </Link>
           </Typography>
           {!auth.loading && auth.id && (
