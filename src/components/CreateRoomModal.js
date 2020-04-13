@@ -86,7 +86,6 @@ export default function CreateRoomModal(props) {
     const owner_id = auth.id;
     try {
       const newRoom = await axios.post(`${process.env.REACT_APP_API_URL}/rooms`, {room, owner_id});
-      console.log(newRoom);
       setSaving(false);
       setNewRoomUrl(`${process.env.REACT_APP_CLIENT_URL}/${newRoom.data.uid}`);
     } catch(err) {
