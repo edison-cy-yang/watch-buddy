@@ -35,7 +35,6 @@ function Room() {
         setRoom(room.data);
         setLoading(false);
       } else {
-        console.log(room);
         setError("Room not found, are you sure you entered the right URL?");
         setLoading(false);
       }
