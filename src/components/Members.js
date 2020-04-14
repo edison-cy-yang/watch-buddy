@@ -14,9 +14,11 @@ export default function Members(props) {
     props.socket.on('someone left', (res) => {
       setNumberOfMembers(res.numOfPeople);
     });
-  }, [])
 
-  console.log(members);
+    return () => {
+      props.socket.emit("leave");
+    }
+  }, [])
 
   return (
     <div>
