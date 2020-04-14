@@ -9,6 +9,8 @@ import Button from '@material-ui/core/Button';
 import SendIcon from '@material-ui/icons/Send';
 import IconButton from '@material-ui/core/IconButton';
 
+import Members from './Members';
+
 export default function Chat(props) {
   const [messages, setMessages] = useState([
     {
@@ -59,7 +61,7 @@ export default function Chat(props) {
 
   return (
     <div style={{margin: '10px'}}>
-      <h2>Chat</h2>
+      <Members socket={props.socket} />
       <div style={{width: '400px', height: '495px', overflowY: 'auto', position: 'relative', bottom: 0, display: 'flex', flexDirection: 'column-reverse', backgroundColor: 'white', margin: '5px', borderRadius: 10, padding: '5px'}}>
         <MessageList
           className='message-list'

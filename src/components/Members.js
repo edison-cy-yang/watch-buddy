@@ -22,7 +22,7 @@ export default function Members(props) {
 
   return (
     <div>
-      <h3>People online: {numOfMembers}</h3>
+      <h2>Online: {numOfMembers}</h2>
     </div>
   );
 };
