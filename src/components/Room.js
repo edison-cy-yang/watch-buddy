@@ -8,7 +8,6 @@ import axios from 'axios';
 
 import VideoPlayer from './VideoPlayer';
 import Chat from './Chat';
-import Members from './Members';
 import Error from './Error';
 
 import io from 'socket.io-client';
@@ -63,9 +62,6 @@ function Room() {
             socket={socket}
           />
           <Chat
-            socket={socket}
-          />
-          <Members 
             socket={socket}
           />
         </div>
