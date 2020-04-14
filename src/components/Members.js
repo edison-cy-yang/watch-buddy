@@ -5,9 +5,7 @@ export default function Members(props) {
   const [numOfMembers, setNumberOfMembers] = useState(0);
 
   useEffect(() => {
-    console.log(props.socket);
     props.socket.on('new member', (res) => {
-      console.log("person joined");
       setNumberOfMembers(res.numOfPeople);
     });
 
