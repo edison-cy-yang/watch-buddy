@@ -1,11 +1,8 @@
 import React, {useEffect, useState} from 'react';
 
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
-
-import io from 'socket.io-client';
 
 import YouTubePlayer from 'react-player/lib/players/YouTube';
 

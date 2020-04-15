@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 import UserContext from '../contexts/UserContext';
 
 import Header from './Header';
-import CreateRoom from './CreateRoom';
 import Home from './Home';
 import Room from './Room';
 
