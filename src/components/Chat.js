@@ -44,7 +44,7 @@ export default function Chat(props) {
     setMessages([...messages, {
       position: 'right',
       type: 'text',
-      text: `${auth.name}: ${message}`,
+      text: `${auth.name ? auth.name : 'guest'}: ${message}`,
       date: new Date()
     }]);
     setMessage("");
