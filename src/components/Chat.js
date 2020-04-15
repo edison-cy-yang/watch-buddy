@@ -2,10 +2,9 @@ import React, { useEffect, useState, useRef, useContext } from 'react';
 import UserContext from '../contexts/UserContext';
 
 import 'react-chat-elements/dist/main.css';
-import { MessageBox, MessageList } from 'react-chat-elements';
+import { MessageList } from 'react-chat-elements';
 
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import SendIcon from '@material-ui/icons/Send';
 import IconButton from '@material-ui/core/IconButton';
 

@@ -4,11 +4,6 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 import UserContext from '../contexts/UserContext';
 
 import Header from './Header';
-import Feed from './Feed';
-import FriendRequests from './FriendRequests';
-import MyRooms from './MyRooms';
-import ChatRoom from './ChatRoom';
-import CreateRoom from './CreateRoom';
 import Home from './Home';
 import Room from './Room';
 
