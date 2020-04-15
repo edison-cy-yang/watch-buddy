@@ -5,7 +5,6 @@ import UserContext from '../contexts/UserContext';
 
 import Header from './Header';
 import Feed from './Feed';
-import ChatRoom from './ChatRoom';
 import CreateRoom from './CreateRoom';
 import Home from './Home';
 import Room from './Room';
