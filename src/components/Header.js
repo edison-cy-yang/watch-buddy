@@ -73,7 +73,7 @@ export default function MenuAppBar(props) {
           {!auth.loading && !auth.id && (
             <div>
               <Button href={`${process.env.REACT_APP_API_URL}/users/auth/google`}>
-                Sign in with Google
+                <img src="./btn_google_signin_light_normal_web.png"  alt="singin" />
               </Button>
             </div>
           )}
