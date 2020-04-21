@@ -20,6 +20,20 @@ function VideoPlayer(props) {
   const [seeking, setSeeking] = useState(false);
   const [duration, setDuration] = useState(0);
 
+  const { innerWidth, innerHeight } = window;
+  const [dimension, setDimension] = useState({width: 854, height: 480});
+
+  useEffect(() => {
+    if (innerWidth < 1300) {
+      setDimension({
+        width: 640, 
+        height: 360
+      });
+    }
+  }, [innerWidth])
+
+  console.log(dimension);
+
   useEffect(() => {
     if (player && props.room.id) {
       props.socket.on('plays', () => {     
@@ -37,6 +51,7 @@ function VideoPlayer(props) {
       props.socket.on('disconnect', () => {
       })
     }
+    
   },[player, props.room.id])
 
   const handleSeekMouseDown = (e) => {
@@ -90,8 +105,8 @@ function VideoPlayer(props) {
               onProgress={handleProgress} 
               playing={playing}
               onDuration={handleDuration}
-              width='854px'
-              height='480px'
+              width={dimension.width}
+              height={dimension.height}
             />
             <input
               type='range' min={0} max={0.999999} step='any'

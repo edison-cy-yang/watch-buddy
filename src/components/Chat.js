@@ -24,6 +24,15 @@ export default function Chat(props) {
 
   const [message, setMessage] = useState("");
 
+  const { innerWidth } = window;
+  const [chatSize, setChatSize] = useState({height: 495});
+
+  useEffect(() => {
+    if(innerWidth < 1300) {
+      setChatSize({height: 375});
+    }
+  }, [innerWidth])
+
   useEffect(() => {
     props.socket.on('message', (message) => {
       setMessages((prev) => ([...prev, {
@@ -61,7 +70,7 @@ export default function Chat(props) {
   return (
     <div style={{margin: '10px'}}>
       <Members socket={props.socket} />
-      <div style={{width: '400px', height: '495px', overflowY: 'auto', position: 'relative', bottom: 0, display: 'flex', flexDirection: 'column-reverse', backgroundColor: 'white', margin: '5px', borderRadius: 10, padding: '5px'}}>
+      <div style={{width: '400px', height: chatSize.height, overflowY: 'auto', position: 'relative', bottom: 0, display: 'flex', flexDirection: 'column-reverse', backgroundColor: 'white', margin: '5px', borderRadius: 10, padding: '5px'}}>
         <MessageList
           className='message-list'
           lockable={true}
