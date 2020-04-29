@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import UserContext from '../contexts/UserContext';
 
 import 'react-chat-elements/dist/main.css';
@@ -42,7 +42,7 @@ export default function Chat(props) {
         date: new Date()
       }]))
     })
-  }, [])
+  }, [props.socket])
 
   const handleMessage = (event) => {
     setMessage(event.target.value);
