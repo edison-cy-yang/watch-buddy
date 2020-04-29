@@ -8,7 +8,7 @@ import YouTubePlayer from 'react-player/lib/players/YouTube';
 
 import './VideoPlayer.scss';
 
-import {format, pad} from '../helpers/videoHelpers';
+import { format } from '../helpers/videoHelpers';
 
 // let socket;
 
@@ -20,7 +20,7 @@ function VideoPlayer(props) {
   const [seeking, setSeeking] = useState(false);
   const [duration, setDuration] = useState(0);
 
-  const { innerWidth, innerHeight } = window;
+  const { innerWidth } = window;
   const [dimension, setDimension] = useState({width: 854, height: 480});
 
   useEffect(() => {
@@ -52,7 +52,7 @@ function VideoPlayer(props) {
       })
     }
     
-  },[player, props.room.id])
+  },[props.socket, player, props.room.id])
 
   const handleSeekMouseDown = (e) => {
     setSeeking(true);
