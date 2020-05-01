@@ -1,10 +1,3 @@
-const getVideoId = (url) => {
-  //Get videoId
-  const rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
-  const videoId = url.match(rx)[1];
-  return videoId;
-};
-
 const format = (seconds) => {
   const date = new Date(seconds * 1000)
   const hh = date.getUTCHours()
@@ -21,7 +14,6 @@ const pad = (string) => {
 }
 
 module.exports = {
-  getVideoId,
   format,
   pad
 }

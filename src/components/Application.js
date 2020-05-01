@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext, useReducer } from 'react';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import React, { useEffect, useState, useReducer } from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 import UserContext from '../contexts/UserContext';
 
@@ -42,9 +42,9 @@ const reducer = async (state, action) => {
 
 export default function Application(props) {
 
-  const [state, dispatch] = useReducer(reducer, {user: null});
+  // const [state, dispatch] = useReducer(reducer, {user: null});
   // dispatch({type: "GET_USER"});
-  const value = state.user;
+  // const value = state.user;
 
   const [auth, setAuth] = useState({
     id: null,
@@ -55,7 +55,7 @@ export default function Application(props) {
   });
 
   useEffect(() => {
-    dispatch({type: "GET_USER"});
+    // dispatch({type: "GET_USER"});
 
     const fetchUser = async () => {
       const auth = await axios.get(`${process.env.REACT_APP_API_URL}/users/auth/current_user`, {withCredentials: true});
