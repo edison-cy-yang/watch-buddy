@@ -10,7 +10,7 @@ export default function CreateRoom(props) {
     <div className="create-room-container">
       <div className="slogan">
         <h2>Watch YouTube and chat with your friends together</h2>
-        <h2>Start by creating a room</h2>
+        <h2>Get started</h2>
       </div>
       <CreateRoomModal />
     </div>
